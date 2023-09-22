@@ -1,0 +1,3 @@
+corrigir erro da alteração dos registros (ao entrar na página de alteração~os registros aparecem vazios)
+renomear arquivos, mudar nome dos links no menu e nas páginas
+melhorar o css
