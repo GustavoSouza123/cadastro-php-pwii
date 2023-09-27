@@ -74,14 +74,14 @@
 
     <div id="interface">
         <fieldset>
-            <legend>Alterar Senha do Usuário</legend>
+            <legend>.:: Alterar Senha do Usuário ::.</legend>
             <form action="?validar=true" method="post">
                 <?php 
-                    echo "Usuário: " .$_POST["nome"];
+                    echo "<p>Usuário: " .$_POST["nome"]."</p>";
                     echo "<p>Email: ".$_POST["email"]."</p>";
                 ?>
-                <p>Digite a senha: <input type=pasaword name=senha></p>
-                <p>Digite a senha novamente: <input type=passaword name=senhaRepete></p>
+                <p>Digite a senha: <br><input type=pasaword name=senha></p>
+                <p>Digite a senha novamente: <br><input type=passaword name=senhaRepete></p>
                 <input type="hidden" name="id" value="<?php echo $_REQUEST["id"]; ?>">
                 <p><input type="submit" value="Alterar Senha"></p>
             </form>

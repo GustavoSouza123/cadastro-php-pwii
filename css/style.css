@@ -16,6 +16,14 @@ body {
     overflow: hidden;
 }
 
+p {
+    margin: 0 0 15px 0;
+}
+
+form p:last-child {
+    margin: 0 0 10px 0;
+}
+
 div#interface {
     width: 90%;
     max-width: 1440px;
@@ -39,15 +47,14 @@ fieldset {
     width: 90%;
     max-height: 60vh;
     border-color: #cecece;
-    padding-bottom: 20px;
+    padding: 20px;
     overflow: auto;
 }
 
 legend {
-    margin: 10px auto 10px auto;
+    margin: 20px auto 0 auto;
     color: #888;
     font-weight: bold;
-
 }
 
 form {
@@ -69,6 +76,16 @@ th, td {
     border: 1px solid;
     border-color: #cecece;
     padding: 3px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.nome {
+    width: 10%;
+}
+
+.hash-senha {
+    width: 15%;
 }
 
 .menu td {
@@ -93,13 +110,6 @@ a {
 a:hover {
     color: #888;
     text-decoration: underline;
-}
-
-legend {
-    margin: 10px auto 10px auto;
-    color: #888;
-    font-weight: bold;
-
 }
 
 table {
@@ -144,5 +154,17 @@ a.link:hover {
 .erro {
     text-align: center;
     margin: 0;
-    margin-top: 30px;
+    position: absolute;
+    top: 30px;
 }
+/*
+@media only screen and (max-width: 1200px) {
+    fieldset {
+        overflow-x: scroll !important;
+    }
+
+    th, td {
+        word-break: keep-all;
+    }
+}
+*/

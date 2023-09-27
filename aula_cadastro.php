@@ -17,13 +17,15 @@
             $erro = 'E-mail inválido, preencha o campo email corretamente';
         } else if(is_numeric($_POST['idade']) == false) {
             $erro = 'O campo idade deve ser numérico';
-        } else if($_POST['sexo'] != 'M' && $_POST['sexo'] != 'F') {
+        } else if(!isset($_POST['sexo'])) {
             $erro = 'Selecione o campo sexo corretamente';
-        } else if($_POST['estadocivil'] != 'solteiro' && 
+        } else if(!isset($_POST['estadocivil']) || ($_POST['estadocivil'] != 'solteiro' && 
         $_POST['estadocivil'] != 'casado' && 
         $_POST['estadocivil'] != 'divorciado' && 
-        $_POST['estadocivil'] != 'viuvo') {
+        $_POST['estadocivil'] != 'viuvo')) {
             $erro = 'Selecione o campo estado civil corretamente';
+        } else if(!isset($_POST['senha']) || $_POST['senha'] == '') {
+            $erro = 'Digite uma senha';
         } else {
             $valido = true;
 
@@ -84,7 +86,7 @@
 
     <div id=interface>
         <fieldset>
-            <legend>.:: Cadastro de Usuários ::.</legend>
+            <legend>.:: Cadastro de Usuário ::.</legend>
             <form action="?validar=true" method="post">
                 <p>Nome: <input type="text" name="nome" <?php if(isset($_POST['nome'])) echo "value='" . $_POST['nome'] . "'"; ?> /></p>
                 <p>E-mail: <input type="text" name="email" <?php if(isset($_POST['email'])) echo "value='" . $_POST['email'] . "'"; ?> /></p>
@@ -95,11 +97,12 @@
                 </p>
                 <p>Interesses:<br>
                     <input type="checkbox" name="humanas" <?php if(isset($_POST['humanas'])) echo 'checked'; ?> />Ciências humanas
-                    <input type="checkbox" name="exatas" <?php if(isset($_POST['exatas'])) echo 'checked'; ?> />Ciências exatas
+                    <input type="checkbox" name="exatas" <?php if(isset($_POST['exatas'])) echo 'checked'; ?> />Ciências exatas<br>
                     <input type="checkbox" name="biologicas" <?php if(isset($_POST['biologicas'])) echo 'checked'; ?> />Ciências biológicas
                 </p>
-                <p>Estado civil:<br>
+                <p>Estado civil:
                     <select name="estadocivil">
+                        <option value="selecione" selected disabled <?php if(isset($_POST['estadocivil']) && $_POST['estadocivil'] == 'selecione') echo 'selected'; ?>>Selecione</option>
                         <option value="solteiro" <?php if(isset($_POST['estadocivil']) && $_POST['estadocivil'] == 'solteiro') echo 'selected'; ?>>Solteiro(a)</option>
                         <option value="casado" <?php if(isset($_POST['estadocivil']) && $_POST['estadocivil'] == 'casado') echo 'selected'; ?>>Casado(a)</option>
                         <option value="divorciado" <?php if(isset($_POST['estadocivil']) && $_POST['estadocivil'] == 'divorciado') echo 'selected'; ?>>Divorciado(a)</option>

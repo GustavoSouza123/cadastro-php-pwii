@@ -9,11 +9,11 @@
 <body>
     <div id="interface">
         <fieldset>
-            <legend>.::Lista de Usuário::.</legend>
+            <legend>.:: Lista de Usuários ::.</legend>
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>Nome</th>
+                    <th class='nome'>Nome</th>
                     <th>E-mail</th>
                     <th>Idade</th>
                     <th>Sexo</th>
@@ -21,7 +21,7 @@
                     <th>Humanas</th>
                     <th>Exatas</th>
                     <th>Biológicas</th>
-                    <th>Hash da Senha</th>
+                    <th class='hash-senha'>Hash da Senha</th>
                 </tr>
 
                 <?php
@@ -51,7 +51,7 @@
                         while($registro = $sql->fetch(PDO::FETCH_OBJ)) {
                             echo "<tr>";
                                 echo "<td>".$registro->id."</td>";
-                                echo "<td>".$registro->nome."</td>";
+                                echo "<td class='nome'>".$registro->nome."</td>";
                                 echo "<td>".$registro->email."</td>";
                                 echo "<td>".$registro->idade."</td>";
                                 echo "<td>".$registro->sexo."</td>";
@@ -59,7 +59,7 @@
                                 echo "<td>".$registro->humanas."</td>";
                                 echo "<td>".$registro->exatas."</td>";
                                 echo "<td>".$registro->biologicas."</td>";
-                                echo "<td>".$registro->senha."</td>";
+                                echo "<td class='hash-senha'>".$registro->senha."</td>";
 
                                 echo "<td>";
                                 echo "<a href='?excluir=true&id=".$registro->id."'> Excluir</a> |";

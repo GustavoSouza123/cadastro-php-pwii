@@ -45,7 +45,7 @@
 <body>
     <div id="interface" class="menu">
         <fieldset>
-            <legend>.:: Menu principal ::.</legend>
+            <legend>.:: Menu Principal ::.</legend>
             <table>
                 <tr><td><a href="aula_cadastro.php">Cadastro de Usuários</a></td></tr>
                 <tr><td><a href="aula_lista.php">Lista de Usuários</a></td></tr>

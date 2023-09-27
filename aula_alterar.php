@@ -107,7 +107,7 @@
 
     <div id=interface>
         <fieldset>
-            <legend>.:: Cadastro de Usuários ::.</legend>
+            <legend>.:: Alterar Usuário ::.</legend>
             <form action="?validar=true" method="post">
                 <p>Nome: <input type="text" name="nome" <?php if(isset($_POST['nome'])) echo "value='" . $_POST['nome'] . "'"; ?> /></p>
                 <p>E-mail: <input type="text" name="email" <?php if(isset($_POST['email'])) echo "value='" . $_POST['email'] . "'"; ?> /></p>
