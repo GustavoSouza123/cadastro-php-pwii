@@ -2,6 +2,14 @@
     $erro = null;
     $valido = false;
 
+    try {
+        $conn = new PDO('mysql:host=localhost;dbname=cadastro', 'root', '');
+        $conn->exec('set names utf8');
+    } catch(PDOException $e) {
+        echo "Erro: " . $e->getMessage();
+        exit();
+    }
+
     if(isset($_REQUEST['validar']) && $_REQUEST['validar'] == true) {
         if(strlen(utf8_decode($_POST['nome'])) < 5) {
             $erro = 'Preencha o campo nome corretamente (5 ou mais caracteres)';
@@ -19,15 +27,7 @@
         } else {
             $valido = true;
 
-            // início código de conexão do banco de dados
-            try {
-                $conn = new PDO('mysql:host=localhost;dbname=cadastro', 'root', '');
-                $conn->exec('set names utf8');
-            } catch(PDOException $e) {
-                echo "Erro: " . $e->getMessage();
-                exit();
-            }
-
+            // início do código de alteração
             $query = "UPDATE usuarios SET
                     nome = ?, email = ?, idade = ?, sexo = ?, 
                     estado_civil = ?, humanas = ?, exatas = ?, biologicas = ? 
@@ -61,43 +61,28 @@
                 $erro = "erro código " . $sql->errorCode() . ": ";
                 $erro .= implode(", ", $sql->errorInfo());
             }
-            // fim código de conexão do banco de dados
-
-            // rotina de alteração
-            $sql = $conn->prepare("SELECT * FROM usuarios WHERE id = ?");
-            $sql->bindParam(1, $_REQUEST["id"]);
-
-            if($sql->execute()) {
-                if($registro = $sql->fetch(PDO::FETCH_OBJ)) {
-                    $_POST["name"] = $registro->nome;
-                    $_POST["email"] = $registro->email;
-                    $_POST["idade"] = $registro->idade;
-                    $_POST["sexo"] = $registro->sexo;
-                    $_POST["estadocivil"] = $registro->estado_civil;
-                    $_POST["humanas"] = $registro->humanas;
-                    $_POST["exatas"] = $registro->exatas;
-                    $_POST["biologicas"] = $registro->biologicas;
-                } else {
-                    $erro = "Registro não encontrado<br>";
-                }
-            } else {
-                $erro = "Falha na captura do registro<br>";
-            }
+            // fim do código de alteração
         }
     } else {
-        // $rs = $conn->prepare("SELECT nome, email FROM usuarios WHERE id = ?");
-        // $rs->bindParam(1, $_REQUEST["id"]);
+        $sql = $conn->prepare("SELECT * FROM usuarios WHERE id = ?");
+        $sql->bindParam(1, $_REQUEST["id"]);
 
-        // if($rs->execute()) {
-        //     if($registro = $sql->fetch(PDO::FETCH_OBJ)) {
-        //         $_POST["nome"] = $registro->nome;
-        //         $_POST["email"] = $registro->email;
-        //     } else {
-        //         $erro = "Registro não encontrado";
-        //     }
-        // } else {
-        //     $erro = "Falha na captura do registro";
-        // }
+        if($sql->execute()) {
+            if($registro = $sql->fetch(PDO::FETCH_OBJ)) {
+                $_POST['nome'] = $registro->nome;
+                $_POST['email'] = $registro->email;
+                $_POST['idade'] = $registro->idade;
+                $_POST['sexo'] = $registro->sexo;
+                $_POST['humanas'] = $registro->humanas;
+                $_POST['exatas'] = $registro->exatas;
+                $_POST['biologicas'] = $registro->biologicas;
+                $_POST['estadocivil'] = $registro->estado_civil;
+            } else {
+                $erro = "Registro não encontrado";
+            }
+        } else {
+            $erro = "Falha na captura do registro";
+        }
     }
 ?>
 
@@ -107,16 +92,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel ="stylesheet" href="css/style.css" />
-    <title>Cadastro de Usuários</title>
+    <title>Alterar Usuário</title>
 </head>
 <body>
     <?php
         if($valido == true) {
-            echo "Dados enviados com sucesso!<br>";
-            echo "<a href='aula_lista.php'>Visualizar registros</a>";
+            echo '<p>Dados enviados com sucesso!</p>';
+            echo '<a class="link" href="aula_lista.php">Visualizar registros</a>';
         } else {
             if(isset($erro)) {
-                echo $erro . '<br><br>';
+                echo "<p class='erro'>".$erro."</p>";
             }
     ?>
 
@@ -132,9 +117,9 @@
                     <input type="radio" name="sexo" value="F" <?php if(isset($_POST['sexo']) && $_POST['sexo'] == 'F') echo 'checked'; ?> />Feminino
                 </p>
                 <p>Interesses:<br>
-                    <input type="checkbox" name="humanas" <?php if(isset($_POST['humanas'])) echo 'checked'; ?> />Ciências humanas
-                    <input type="checkbox" name="exatas" <?php if(isset($_POST['exatas'])) echo 'checked'; ?> />Ciências exatas
-                    <input type="checkbox" name="biologicas" <?php if(isset($_POST['biologicas'])) echo 'checked'; ?> />Ciências biológicas
+                    <input type="checkbox" name="humanas" <?php if(isset($_POST['humanas']) && $_POST['humanas'] == '1') echo 'checked'; ?> />Ciências humanas
+                    <input type="checkbox" name="exatas" <?php if(isset($_POST['exatas']) && $_POST['exatas'] == '1') echo 'checked'; ?> />Ciências exatas
+                    <input type="checkbox" name="biologicas" <?php if(isset($_POST['biologicas']) && $_POST['biologicas'] == '1') echo 'checked'; ?> />Ciências biológicas
                 </p>
                 <p>Estado civil:<br>
                     <select name="estadocivil">
@@ -150,7 +135,7 @@
             </form>
         </fieldset>
         
-        <p class="link"><a href="aula_menu.php">Menu Principal</a></p>
+        <a class="link" href="aula_menu.php">Menu Principal</a>
     </div>
 
     <?php } ?>

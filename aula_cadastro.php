@@ -2,6 +2,14 @@
     $erro = null;
     $valido = false;
 
+    try {
+        $conn = new PDO('mysql:host=localhost;dbname=cadastro', 'root', '');
+        $conn->exec('set names utf8');
+    } catch(PDOException $e) {
+        echo "Erro: " . $e->getMessage();
+        exit();
+    }
+
     if(isset($_REQUEST['validar']) && $_REQUEST['validar'] == true) {
         if(strlen(utf8_decode($_POST['nome'])) < 5) {
             $erro = 'Preencha o campo nome corretamente (5 ou mais caracteres)';
@@ -10,7 +18,7 @@
         } else if(is_numeric($_POST['idade']) == false) {
             $erro = 'O campo idade deve ser numérico';
         } else if($_POST['sexo'] != 'M' && $_POST['sexo'] != 'F') {
-            $erro = "Selecione o campo sexo corretamente";
+            $erro = 'Selecione o campo sexo corretamente';
         } else if($_POST['estadocivil'] != 'solteiro' && 
         $_POST['estadocivil'] != 'casado' && 
         $_POST['estadocivil'] != 'divorciado' && 
@@ -19,15 +27,7 @@
         } else {
             $valido = true;
 
-            // início código de conexão do banco de dados
-            try {
-                $conn = new PDO('mysql:host=localhost;dbname=cadastro', 'root', '');
-                $conn->exec('set names utf8');
-            } catch(PDOException $e) {
-                echo "Erro: " . $e->getMessage();
-                exit();
-            }
-
+            // início do código de cadastro
             $query = 'INSERT INTO usuarios
                     (nome, email, idade, sexo, estado_civil, humanas, exatas, biologicas, senha)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -58,7 +58,7 @@
                 $erro = 'erro código ' . $sql->errorCode() . ": ";
                 $erro .= implode(', ', $sql->errorInfo());
             }
-            // fim código de conexão do banco de dados
+            // fim do código de cadastro
         }
     }
 ?>
@@ -74,11 +74,11 @@
 <body>
     <?php
         if($valido == true) {
-            echo 'Dados enviados com sucesso!';
-            echo '<p class="link"><a href="aula_menu.php">Menu Principal</a></p>';
+            echo '<p>Dados enviados com sucesso!</p>';
+            echo '<a class="link" href="aula_lista.php">Visualizar registros</a>';
         } else {
             if(isset($erro)) {
-                echo $erro . '<br><br>';
+                echo "<p class='erro'>".$erro."</p>";
             }
     ?>
 
@@ -111,7 +111,7 @@
             </form>
         </fieldset>
         
-        <p class="link"><a href="aula_menu.php">Menu Principal</a></p>
+        <a class="link" href="aula_menu.php">Menu Principal</a>
     </div>
 
     <?php } ?>

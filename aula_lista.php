@@ -12,6 +12,7 @@
             <legend>.::Lista de Usuário::.</legend>
             <table>
                 <tr>
+                    <th>ID</th>
                     <th>Nome</th>
                     <th>E-mail</th>
                     <th>Idade</th>
@@ -44,10 +45,12 @@
                         }
                     }
 
+                    // listar registros
                     $sql = $conn->prepare("SELECT * FROM usuarios");
                     if($sql->execute()) {
                         while($registro = $sql->fetch(PDO::FETCH_OBJ)) {
                             echo "<tr>";
+                                echo "<td>".$registro->id."</td>";
                                 echo "<td>".$registro->nome."</td>";
                                 echo "<td>".$registro->email."</td>";
                                 echo "<td>".$registro->idade."</td>";
@@ -60,7 +63,7 @@
 
                                 echo "<td>";
                                 echo "<a href='?excluir=true&id=".$registro->id."'> Excluir</a> |";
-                                echo "<a href='aula_alterar.php?id=".$registro->id."'> Alterar</a> |";
+                                echo "<a href='aula_alterar.php?id=".$registro->id."'> Alterar</a> |<br>";
                                 echo "<a href='aula_senha.php?id=".$registro->id."'> Alterar Senha</a>";
                                 echo "</td>";
                             echo "</tr>";
@@ -72,7 +75,7 @@
             </table>
         </fieldset>
 
-        <p class="link"><a href="aula_menu.php">Menu Principal</a></p>
+        <a class="link" href="aula_menu.php">Menu Principal</a>
     </div>
 </body>
 </html>
